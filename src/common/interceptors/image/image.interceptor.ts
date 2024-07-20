@@ -1,7 +1,7 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-07-05 09:53:44
- * @LastEditTime: 2024-07-21 03:24:34
+ * @LastEditTime: 2024-07-21 03:50:36
  * @LastEditors: mulingyuer
  * @Description: 图片校验拦截器
  * @FilePath: \nestjs-prisma-template\src\common\interceptors\image\image.interceptor.ts
@@ -11,8 +11,6 @@ import {
 	BadRequestException,
 	CallHandler,
 	ExecutionContext,
-	NestInterceptor,
-	Type,
 	UseInterceptors
 } from "@nestjs/common";
 import { FileFieldsInterceptor, FileInterceptor, FilesInterceptor } from "@nestjs/platform-express";
