@@ -1,6 +1,4 @@
-# nestjs-prisma-template
-
-这是一个Nestjs与Prisma的后端模板仓库
+# ease-change-backend
 
 ## git分支规范
 

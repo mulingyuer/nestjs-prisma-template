@@ -1,56 +1,107 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-07-05 09:53:44
- * @LastEditTime: 2024-07-08 16:08:20
+ * @LastEditTime: 2024-07-21 03:24:34
  * @LastEditors: mulingyuer
  * @Description: 图片校验拦截器
- * @FilePath: \ease-change-backend\src\common\interceptors\image\image.interceptor.ts
+ * @FilePath: \nestjs-prisma-template\src\common\interceptors\image\image.interceptor.ts
  * 怎么可能会有bug！！！
  */
-import { BadRequestException, NestInterceptor, Type } from "@nestjs/common";
-import { FileInterceptor, FileFieldsInterceptor, FilesInterceptor } from "@nestjs/platform-express";
+import {
+	BadRequestException,
+	CallHandler,
+	ExecutionContext,
+	NestInterceptor,
+	Type,
+	UseInterceptors
+} from "@nestjs/common";
+import { FileFieldsInterceptor, FileInterceptor, FilesInterceptor } from "@nestjs/platform-express";
+import type { Request } from "express";
 import type {
+	FilterFunction,
+	ImageArrayInterceptorOptions,
 	ImageInterceptorOptions,
 	ImagesInterceptorOptions,
-	FilterFunction,
-	ImageTypeList,
-	ImageArrayInterceptorOptions
+	ImageTypeList
 } from "./types";
 export type * from "./types";
 
 /** 单图片文件拦截器 */
-export function ImageInterceptor(options: ImageInterceptorOptions): Type<NestInterceptor> {
+export function ImageInterceptor(options: ImageInterceptorOptions) {
 	const { fieldName, fileSize, imageTypes } = options;
-	return FileInterceptor(fieldName, {
-		limits: {
-			fileSize: fileSize
-		},
-		fileFilter: imageFileFilter(imageTypes)
-	});
+
+	return UseInterceptors(
+		FileInterceptor(fieldName, {
+			limits: {
+				fileSize: fileSize,
+				files: 1
+			},
+			fileFilter: imageFileFilter(imageTypes)
+		}),
+		{
+			intercept: (context: ExecutionContext, next: CallHandler) => {
+				const request = context.switchToHttp().getRequest<Request>();
+
+				if (!request.file) {
+					throw new BadRequestException("请上传图片文件");
+				}
+				return next.handle();
+			}
+		}
+	);
 }
 
 /** 图片文件数组拦截器 */
-export function ImageArrayInterceptor(
-	options: ImageArrayInterceptorOptions
-): Type<NestInterceptor> {
+export function ImageArrayInterceptor(options: ImageArrayInterceptorOptions) {
 	const { fieldName, fileSize, imageTypes, maxCount } = options;
-	return FilesInterceptor(fieldName, maxCount, {
-		limits: {
-			fileSize: fileSize
-		},
-		fileFilter: imageFileFilter(imageTypes)
-	});
+	return UseInterceptors(
+		FilesInterceptor(fieldName, maxCount, {
+			limits: {
+				fileSize: fileSize
+			},
+			fileFilter: imageFileFilter(imageTypes)
+		}),
+		{
+			intercept: (context: ExecutionContext, next: CallHandler) => {
+				const request = context.switchToHttp().getRequest<Request>();
+
+				if (!request.files || request.files.length === 0) {
+					throw new BadRequestException("请上传图片文件");
+				}
+				return next.handle();
+			}
+		}
+	);
 }
 
 /** 多图片文件拦截器 */
-export function ImagesInterceptor(options: ImagesInterceptorOptions): Type<NestInterceptor> {
+export function ImagesFieldsInterceptor(options: ImagesInterceptorOptions) {
 	const { fields, fileSize, imageTypes } = options;
-	return FileFieldsInterceptor(fields, {
-		limits: {
-			fileSize: fileSize
-		},
-		fileFilter: imageFileFilter(imageTypes)
-	});
+	return UseInterceptors(
+		FileFieldsInterceptor(fields, {
+			limits: {
+				fileSize: fileSize
+			},
+			fileFilter: imageFileFilter(imageTypes)
+		}),
+		{
+			intercept: (context: ExecutionContext, next: CallHandler) => {
+				const request = context.switchToHttp().getRequest<Request>();
+				const fileKeys = fields.map((item) => item.name);
+
+				if (!request.files || Object.keys(request.files).length === 0) {
+					throw new BadRequestException("请上传图片文件");
+				}
+
+				const lackKeys = fileKeys.filter((key) => !Object.hasOwn(request.files, key));
+				if (lackKeys.length > 0) {
+					throw new BadRequestException(`缺少${lackKeys.join("、")}图片文件`);
+				}
+
+				return next.handle();
+			}
+		}
+	);
 }
 
 /** 筛选函数 */

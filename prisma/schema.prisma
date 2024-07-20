@@ -15,9 +15,8 @@ datasource db {
 
 // 用户
 model User {
-  id        Int     @id @default(autoincrement())
-  nickname  String? @db.VarChar(255) // 用户昵称
-  avatarUrl String? @db.VarChar(255) // 用户头像 URL
+  id       Int    @id @default(autoincrement())
+  nickname String
 
   @@map("user")
 }

@@ -1,7 +1,7 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-07-02 10:38:56
- * @LastEditTime: 2024-07-14 21:22:13
+ * @LastEditTime: 2024-07-21 01:45:31
  * @LastEditors: mulingyuer
  * @Description: 共享模块
  * @FilePath: \nestjs-prisma-template\src\shared\shared.module.ts
@@ -11,16 +11,11 @@ import { HttpExceptionFilter } from "@common/filters";
 import { ContentTypeGuardFactory, JwtAuthGuard } from "@common/guards";
 import { ResponseInterceptor } from "@common/interceptors";
 import { ValidationPipePipe } from "@common/pipes";
-import {
-	ClassSerializerInterceptor,
-	Global,
-	InternalServerErrorException,
-	Module
-} from "@nestjs/common";
+import { ClassSerializerInterceptor, Global, Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from "@nestjs/core";
 import { JwtModule } from "@nestjs/jwt";
-import { getChineseTime, joinRootPath } from "@utils/tools";
+import { checkEnv, getLogTime, joinRootPath } from "@utils/tools";
 import { LoggerErrorInterceptor, LoggerModule } from "nestjs-pino";
 import { PrismaModule } from "./prisma/prisma.module";
 import { RequestService } from "./services/request/request.service";
@@ -40,14 +35,10 @@ const isDev = NODE_ENV === "development";
 		JwtModule.registerAsync({
 			global: true,
 			useFactory(configService: ConfigService) {
+				// 校验环境变量
+				checkEnv(configService, ["JWT_SECRET", "JWT_EXPIRES_IN"]);
 				const secret = configService.get<string>("JWT_SECRET");
-				if (!secret) {
-					throw new InternalServerErrorException("缺失JWT_SECRET配置");
-				}
 				const expiresIn = configService.get<string>("JWT_EXPIRES_IN");
-				if (!expiresIn) {
-					throw new InternalServerErrorException("缺失JWT_EXPIRES_IN配置");
-				}
 
 				return {
 					secret,
@@ -72,7 +63,7 @@ const isDev = NODE_ENV === "development";
 				customProps: (_req, _res) => ({
 					context: "HTTP"
 				}),
-				timestamp: () => `,"time":"${getChineseTime()}"`,
+				timestamp: () => `,"time":"${getLogTime()}"`,
 				transport: isDev
 					? {
 							target: "pino-pretty",
@@ -125,7 +116,6 @@ const isDev = NODE_ENV === "development";
 			provide: APP_INTERCEPTOR,
 			useClass: LoggerErrorInterceptor
 		},
-		// Content-Type校验
 		{
 			provide: APP_GUARD,
 			useClass: ContentTypeGuardFactory("application/json")

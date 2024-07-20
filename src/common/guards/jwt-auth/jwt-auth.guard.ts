@@ -9,7 +9,8 @@ import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
 import type { Request } from "express";
 import { PrismaService } from "@prisma.service";
-import type { JwtPayload } from "./types";
+import type { JwtPayload, UserData } from "./types";
+export type * from "./types";
 import { Reflector } from "@nestjs/core";
 import { IS_PUBLIC_KEY } from "@common/decorators";
 
@@ -65,7 +66,7 @@ export class JwtAuthGuard implements CanActivate {
 	}
 
 	/** 获取用户信息 */
-	private getUserInfo(userId: number) {
+	private getUserInfo(userId: number): Promise<UserData> {
 		return this.prismaService.user.findUnique({
 			where: {
 				id: userId

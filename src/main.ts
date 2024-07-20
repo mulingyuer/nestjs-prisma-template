@@ -1,27 +1,45 @@
-import { NestFactory } from "@nestjs/core";
-import { AppModule } from "./app.module";
+import { initSwaggerDocument } from "@/swagger";
 import { ConfigService } from "@nestjs/config";
-import { InternalServerErrorException } from "@nestjs/common";
+import { NestFactory } from "@nestjs/core";
+import { checkEnv } from "@utils/tools";
 import helmet from "helmet";
 import { Logger } from "nestjs-pino";
-import { initSwaggerDocument } from "@/swagger";
+import { AppModule } from "./app.module";
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule, { bufferLogs: true });
 	const configService = app.get(ConfigService);
 
+	// 校验环境变量
+	checkEnv(configService, ["SWAGGER_ENABLED", "CORS_ENABLED", "PORT"]);
+
+	// 日志
+	app.useLogger(app.get(Logger));
+
 	// prefix
-	const prefix = configService.get<string>("GLOBAL_PREFIX");
+	const prefix = configService.get<string>("GLOBAL_PREFIX") ?? "";
 	if (prefix) {
 		app.setGlobalPrefix(prefix);
+	}
+
+	// Swagger
+	const openSwagger = configService.get("SWAGGER_ENABLED") === "true";
+	if (openSwagger) {
+		initSwaggerDocument({
+			app,
+			configService,
+			basePath: prefix
+		});
 	}
 
 	// 头信息安全
 	app.use(
 		helmet({
-			crossOriginResourcePolicy: { policy: "cross-origin" }
+			crossOriginResourcePolicy: { policy: "cross-origin" },
+			contentSecurityPolicy: !openSwagger // 开启swagger需要允许页内js
 		})
 	);
+
 	// 跨域
 	const corsEnabled = configService.get("CORS_ENABLED");
 	if (corsEnabled === "true") {
@@ -30,24 +48,8 @@ async function bootstrap() {
 		});
 	}
 
-	// 日志
-	app.useLogger(app.get(Logger));
-
-	// Swagger
-	const swaggerEnabled = configService.get("SWAGGER_ENABLED");
-	if (swaggerEnabled === "true") {
-		initSwaggerDocument({
-			app,
-			configService,
-			basePath: prefix ? `/${prefix}` : ""
-		});
-	}
-
 	// 端口
 	const port = configService.get<string>("PORT");
-	if (!port) {
-		throw new InternalServerErrorException("缺失PORT配置");
-	}
 	await app.listen(port);
 }
 bootstrap();
