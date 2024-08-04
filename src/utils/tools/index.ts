@@ -1,7 +1,7 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-07-02 14:48:53
- * @LastEditTime: 2024-08-04 10:17:00
+ * @LastEditTime: 2024-08-04 10:25:21
  * @LastEditors: mulingyuer
  * @Description: 工具
  * @FilePath: \nestjs-prisma-template\src\utils\tools\index.ts
@@ -76,11 +76,12 @@ export function bytesToUnit(bytes: number) {
 
 /** 链接拼接，仅路径/处理 */
 export function joinUrl(...paths: string[]): string {
-	const urlReg =
-		/^(https?:\/\/)?(([a-zA-Z0-9_-])+(\.)?)*(:\d+)?(\/((\.)?(\?)?=?&?[a-zA-Z0-9_-](\?)?)*)*$/i;
 	return paths.reduce((prev, curr) => {
 		if (typeof prev === "string" && prev === "") {
-			if (urlReg.test(curr)) return curr;
+			// 第一次
+			if (curr.startsWith("http")) {
+				return curr.replace(/\/+$/, "");
+			}
 			return `/${curr.replace(/^\/+/, "")}`;
 		}
 		return `${prev.replace(/\/+$/, "")}/${curr.replace(/^\/+/, "")}`;
