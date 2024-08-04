@@ -1,8 +1,7 @@
-import { Controller, Get, HttpStatus } from "@nestjs/common";
-import { ApiResponse, ApiTags } from "@nestjs/swagger";
-import { AuthService } from "./auth.service";
 import { Public } from "@/common/decorators";
-import { LoginEntity } from "./entities/login.entity";
+import { Controller, Get } from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
+import { AuthService } from "./auth.service";
 
 @Controller("auth")
 @ApiTags("auth")
@@ -12,7 +11,6 @@ export class AuthController {
 	/** 登录 */
 	@Get("login")
 	@Public()
-	@ApiResponse({ status: HttpStatus.OK, type: LoginEntity })
 	login() {
 		return this.authService.login();
 	}

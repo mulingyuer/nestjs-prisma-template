@@ -1,25 +1,23 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-07-03 16:37:54
- * @LastEditTime: 2024-07-18 17:49:31
+ * @LastEditTime: 2024-08-04 08:58:34
  * @LastEditors: mulingyuer
  * @Description: swagger文档
- * @FilePath: \ease-change-backend\src\swagger\index.ts
+ * @FilePath: \nestjs-prisma-template\src\swagger\index.ts
  * 怎么可能会有bug！！！
  */
 import type { INestApplication } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import { joinUrl } from "@utils/tools";
 
 export interface InitOptions {
 	app: INestApplication;
 	configService: ConfigService;
-	basePath?: string;
 }
 
 export function initSwaggerDocument(options: InitOptions) {
-	const { app, configService, basePath } = options;
+	const { app, configService } = options;
 	const title = configService.get("SWAGGER_TITLE");
 	const description = configService.get("SWAGGER_DESCRIPTION");
 
@@ -34,7 +32,6 @@ export function initSwaggerDocument(options: InitOptions) {
 	SwaggerModule.setup("docs", app, document, {
 		jsonDocumentUrl: "/swagger/json",
 		swaggerOptions: {
-			basePath: joinUrl(basePath),
 			persistAuthorization: true
 		}
 	});

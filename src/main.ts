@@ -11,7 +11,7 @@ async function bootstrap() {
 	const configService = app.get(ConfigService);
 
 	// 校验环境变量
-	checkEnv(configService, ["SWAGGER_ENABLED", "CORS_ENABLED", "PORT"]);
+	checkEnv(configService, ["CORS_ENABLED", "PORT"]);
 
 	// 日志
 	app.useLogger(app.get(Logger));
@@ -27,8 +27,7 @@ async function bootstrap() {
 	if (openSwagger) {
 		initSwaggerDocument({
 			app,
-			configService,
-			basePath: prefix
+			configService
 		});
 	}
 
