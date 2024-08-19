@@ -1,16 +1,17 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-07-02 11:47:12
- * @LastEditTime: 2024-07-10 12:42:45
+ * @LastEditTime: 2024-08-19 16:53:44
  * @LastEditors: mulingyuer
  * @Description: 全局异常过滤器
- * @FilePath: \ease-change-backend\src\common\filters\http-exception\http-exception.filter.ts
+ * @FilePath: \nestjs-prisma-template\src\common\filters\http-exception\http-exception.filter.ts
  * 怎么可能会有bug！！！
  */
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from "@nestjs/common";
 import type { Request, Response } from "express";
 import { Result } from "@common/result-class/result";
 import { Prisma } from "@prisma/client";
+import { CodeHttpException } from "@common/http-exception";
 
 const isDev = process.env.NODE_ENV === "development";
 /** prisma的错误类 */
@@ -32,6 +33,7 @@ export class HttpExceptionFilter<T> implements ExceptionFilter {
 
 		// 状态码
 		const status = isHttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
+		const code = exception instanceof CodeHttpException ? exception.code : status;
 		// 错误信息
 		let message = "";
 		if (isHttpException) {
@@ -51,7 +53,7 @@ export class HttpExceptionFilter<T> implements ExceptionFilter {
 		}
 
 		// 返回
-		response.status(status).json(Result.fail(status, message));
+		response.status(status).json(Result.fail(code, message));
 	}
 
 	/** 是否是prisma报错 */

@@ -33,13 +33,14 @@ export class RequestService {
 				return response.data;
 			},
 			(error) => {
-				// 日志
-				this.logger.error(error, `请求发生错误`);
 				// 请求被取消
 				if (axios.isCancel(error)) {
 					this.logger.log(`请求被取消: ${error.message}`);
 					return Promise.reject(new InternalServerErrorException(error.message));
 				}
+
+				// 日志
+				this.logger.error(error, `请求发生错误`);
 
 				// AxiosError
 				if (error instanceof AxiosError) {
@@ -52,7 +53,6 @@ export class RequestService {
 					 *  "message": "error message"
 					 * }
 					 */
-					this.logger.error(error, `请求发生已知范围内的错误`);
 					return Promise.reject(
 						new InternalServerErrorException(error.response?.data?.message ?? error.message)
 					);
@@ -60,12 +60,10 @@ export class RequestService {
 
 				// Error
 				if (error instanceof Error) {
-					this.logger.error(error, `请求发生错误`);
 					return Promise.reject(new InternalServerErrorException(error.message));
 				}
 
 				// 其他
-				this.logger.error(error, `请求发生未知错误`);
 				return Promise.reject(new InternalServerErrorException("未知错误"));
 			}
 		);
