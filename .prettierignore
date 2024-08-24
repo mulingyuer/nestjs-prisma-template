@@ -5,3 +5,4 @@ node_modules/**
 **/*.svg
 **/*.sh
 public/*
+/src/index.md
