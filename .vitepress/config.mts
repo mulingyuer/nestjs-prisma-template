@@ -13,7 +13,6 @@ export default defineConfig({
 	head: [["link", { rel: "icon", href: "/nestjs-prisma-template/logo.png" }]],
 	themeConfig: {
 		logo: "/logo.png",
-		outline: "deep",
 		search: {
 			provider: "local",
 			options: {
@@ -37,6 +36,14 @@ export default defineConfig({
 				}
 			}
 		},
+		docFooter: {
+			prev: "上一页",
+			next: "下一页"
+		},
+		outline: {
+			level: "deep",
+			label: "目录树"
+		},
 		socialLinks: [
 			{
 				icon: "github",
@@ -51,7 +58,16 @@ export default defineConfig({
 			{
 				text: "简介",
 				collapsed: false,
-				items: [{ text: "项目介绍", link: "/introduction/what-is" }]
+				items: [
+					{ text: "项目介绍", link: "/introduction/what-is" },
+					{ text: "快速开始", link: "/introduction/started" },
+					{ text: "打包部署", link: "/introduction/deploy" }
+				]
+			},
+			{
+				text: "核心功能",
+				collapsed: false,
+				items: [{ text: "错误异常处理", link: "/core-features/error-handling" }]
 			}
 		]
 	},
