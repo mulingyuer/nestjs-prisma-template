@@ -67,7 +67,12 @@ export default defineConfig({
 			{
 				text: "核心功能",
 				collapsed: false,
-				items: [{ text: "错误异常处理", link: "/core-features/error-handling" }]
+				items: [
+					{ text: "错误异常处理", link: "/core-features/error-handling" },
+					{ text: "接口响应格式", link: "/core-features/response-format" },
+					{ text: "日志管理", link: "/core-features/logger" },
+					{ text: "Swagger文档", link: "/core-features/swagger" }
+				]
 			}
 		]
 	},

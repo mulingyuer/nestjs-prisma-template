@@ -4,7 +4,7 @@
 
 **github 地址：** [nestjs-prisma-template](https://github.com/mulingyuer/nestjs-prisma-template)
 
-拉取成功并切换到`main`分支后。
+拉取成功切换到`main`分支。
 
 ## 安装依赖
 
