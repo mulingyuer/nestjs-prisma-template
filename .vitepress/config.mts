@@ -76,5 +76,6 @@ export default defineConfig({
 			}
 		]
 	},
-	markdown
+	markdown,
+	ignoreDeadLinks: ["http://localhost:3000/docs"]
 });
