@@ -1,7 +1,7 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-08-04 10:08:13
- * @LastEditTime: 2024-08-04 10:08:43
+ * @LastEditTime: 2024-09-24 15:53:29
  * @LastEditors: mulingyuer
  * @Description: 生成barrelsby.json文件
  * @FilePath: \nestjs-prisma-template\scripts\generate-barrelsby-json\index.ts
@@ -15,7 +15,7 @@ import { template } from "./template";
 /** 项目目录 */
 const baseDir = join(__dirname, "../../src");
 /** 过滤 */
-const exclude = ["node_modules", "test", ".spec.ts", "types.ts"];
+const exclude = ["node_modules", "test", ".spec.ts"];
 /** 包含 */
 const include = [".ts"];
 /** json文件保存路径 */

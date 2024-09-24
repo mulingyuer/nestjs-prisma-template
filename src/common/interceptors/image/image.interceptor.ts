@@ -1,7 +1,7 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-07-05 09:53:44
- * @LastEditTime: 2024-07-21 03:50:36
+ * @LastEditTime: 2024-09-24 16:05:51
  * @LastEditors: mulingyuer
  * @Description: 图片校验拦截器
  * @FilePath: \nestjs-prisma-template\src\common\interceptors\image\image.interceptor.ts
@@ -22,7 +22,6 @@ import type {
 	ImagesInterceptorOptions,
 	ImageTypeList
 } from "./types";
-export type * from "./types";
 
 /** 单图片文件拦截器 */
 export function ImageInterceptor(options: ImageInterceptorOptions) {
