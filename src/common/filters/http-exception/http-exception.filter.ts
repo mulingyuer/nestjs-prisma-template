@@ -12,7 +12,7 @@ import type { Request, Response } from "express";
 import { Result } from "@common/result-class/result";
 import { Prisma } from "@prisma/client";
 import { CodeHttpException } from "@common/http-exception";
-import { EnvEnum } from "@/common/enum";
+import { EnvEnum } from "@/common/enums";
 
 const isDev = process.env[EnvEnum.NODE_ENV] === "development";
 /** prisma的错误类 */

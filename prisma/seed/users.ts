@@ -7,7 +7,7 @@
  * @FilePath: \nestjs-prisma-template\prisma\seed\users.ts
  * 怎么可能会有bug！！！
  */
-import { EnvEnum } from "@/common/enum";
+import { EnvEnum } from "@/common/enums";
 import { Prisma, PrismaClient, RoleNameEnum } from "@prisma/client";
 import { hash } from "bcrypt";
 

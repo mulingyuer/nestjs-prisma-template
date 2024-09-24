@@ -1,5 +1,6 @@
 {
   "directory": [
+    "E:\\code\\nestjs-prisma-template\\src\\modules\\auth\\dto",
     "E:\\code\\nestjs-prisma-template\\src\\modules\\auth\\entities",
     "E:\\code\\nestjs-prisma-template\\src\\common\\class-validator",
     "E:\\code\\nestjs-prisma-template\\src\\common\\decorators",

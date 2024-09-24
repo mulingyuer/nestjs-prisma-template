@@ -13,7 +13,7 @@ import type { UserData } from "./types";
 import type { DbUser, JwtPayload } from "@common/types";
 import { Reflector } from "@nestjs/core";
 import { IS_PUBLIC_KEY } from "@common/decorators";
-import { EnvEnum } from "@/common/enum";
+import { EnvEnum } from "@/common/enums";
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
