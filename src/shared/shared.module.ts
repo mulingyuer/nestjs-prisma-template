@@ -1,7 +1,7 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-07-02 10:38:56
- * @LastEditTime: 2024-09-24 16:34:11
+ * @LastEditTime: 2024-09-24 16:51:53
  * @LastEditors: mulingyuer
  * @Description: 共享模块
  * @FilePath: \nestjs-prisma-template\src\shared\shared.module.ts
@@ -25,8 +25,9 @@ import { LoggerErrorInterceptor, LoggerModule } from "nestjs-pino";
 import { PrismaModule } from "./prisma/prisma.module";
 import { RequestService } from "./services/request/request.service";
 import { UploadModule } from "./upload/upload.module";
+import { EnvEnum } from "@common/enums";
 
-const NODE_ENV = process.env.NODE_ENV;
+const NODE_ENV = process.env[EnvEnum.NODE_ENV];
 const isDev = NODE_ENV === "development";
 
 @Global()
@@ -41,9 +42,9 @@ const isDev = NODE_ENV === "development";
 			global: true,
 			useFactory(configService: ConfigService) {
 				// 校验环境变量
-				checkEnv(configService, ["JWT_SECRET", "JWT_EXPIRES_IN"]);
-				const secret = configService.get<string>("JWT_SECRET");
-				const expiresIn = configService.get<string>("JWT_EXPIRES_IN");
+				checkEnv(configService, [EnvEnum.JWT_SECRET, EnvEnum.JWT_EXPIRES_IN]);
+				const secret = configService.get<string>(EnvEnum.JWT_SECRET);
+				const expiresIn = configService.get<string>(EnvEnum.JWT_EXPIRES_IN);
 
 				return {
 					secret,

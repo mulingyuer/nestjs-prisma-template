@@ -6,13 +6,14 @@ import { diskStorage } from "multer";
 import { ConfigService } from "@nestjs/config";
 import { extname } from "path";
 import { joinRootPath } from "@utils/tools";
+import { EnvEnum } from "@common/enums";
 
 @Module({
 	imports: [
 		MulterModule.registerAsync({
 			inject: [ConfigService],
 			useFactory: (configService: ConfigService) => {
-				const uploadDir = configService.get<string>("UPLOAD_DIR");
+				const uploadDir = configService.get<string>(EnvEnum.UPLOAD_DIR);
 				if (!uploadDir || uploadDir.trim() === "") {
 					throw new InternalServerErrorException("缺少上传目录配置 UPLOAD_DIR");
 				}

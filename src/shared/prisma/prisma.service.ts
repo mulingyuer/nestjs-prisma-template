@@ -1,6 +1,7 @@
 import { Injectable, InternalServerErrorException, OnModuleInit, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { PrismaClient, Prisma } from "@prisma/client";
+import { EnvEnum } from "@common/enums";
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
@@ -14,7 +15,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
 				level: "error"
 			}
 		];
-		if (config.get("NODE_ENV") === "development") {
+		if (config.get(EnvEnum.NODE_ENV) === "development") {
 			logList.push(
 				{
 					emit: "event",
