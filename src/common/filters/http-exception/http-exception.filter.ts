@@ -1,7 +1,7 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-07-02 11:47:12
- * @LastEditTime: 2024-08-19 16:53:44
+ * @LastEditTime: 2024-09-24 16:18:58
  * @LastEditors: mulingyuer
  * @Description: 全局异常过滤器
  * @FilePath: \nestjs-prisma-template\src\common\filters\http-exception\http-exception.filter.ts
@@ -12,8 +12,9 @@ import type { Request, Response } from "express";
 import { Result } from "@common/result-class/result";
 import { Prisma } from "@prisma/client";
 import { CodeHttpException } from "@common/http-exception";
+import { EnvEnum } from "@/common/enum";
 
-const isDev = process.env.NODE_ENV === "development";
+const isDev = process.env[EnvEnum.NODE_ENV] === "development";
 /** prisma的错误类 */
 const PrismaErrorList = [
 	Prisma.PrismaClientInitializationError,

@@ -1,14 +1,19 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-07-02 10:38:56
- * @LastEditTime: 2024-07-21 01:45:31
+ * @LastEditTime: 2024-09-24 16:34:11
  * @LastEditors: mulingyuer
  * @Description: 共享模块
  * @FilePath: \nestjs-prisma-template\src\shared\shared.module.ts
  * 怎么可能会有bug！！！
  */
 import { HttpExceptionFilter } from "@common/filters";
-import { ContentTypeGuardFactory, JwtAuthGuard } from "@common/guards";
+import {
+	ContentTypeGuardFactory,
+	JwtAuthGuard,
+	PermissionsGuard,
+	RolesGuard
+} from "@common/guards";
 import { ResponseInterceptor } from "@common/interceptors";
 import { ValidationPipePipe } from "@common/pipes";
 import { ClassSerializerInterceptor, Global, Module } from "@nestjs/common";
@@ -116,9 +121,20 @@ const isDev = NODE_ENV === "development";
 			provide: APP_INTERCEPTOR,
 			useClass: LoggerErrorInterceptor
 		},
+		// content-type 校验
 		{
 			provide: APP_GUARD,
 			useClass: ContentTypeGuardFactory("application/json")
+		},
+		// 角色鉴权
+		{
+			provide: APP_GUARD,
+			useClass: RolesGuard
+		},
+		// 权限鉴权
+		{
+			provide: APP_GUARD,
+			useClass: PermissionsGuard
 		},
 		RequestService
 	],

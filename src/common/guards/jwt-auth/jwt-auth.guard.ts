@@ -9,9 +9,11 @@ import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
 import type { Request } from "express";
 import { PrismaService } from "@prisma.service";
-import type { JwtPayload, UserData } from "./types";
+import type { UserData } from "./types";
+import type { DbUser, JwtPayload } from "@common/types";
 import { Reflector } from "@nestjs/core";
 import { IS_PUBLIC_KEY } from "@common/decorators";
+import { EnvEnum } from "@/common/enum";
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
@@ -39,10 +41,10 @@ export class JwtAuthGuard implements CanActivate {
 		// 解析token，验证用户身份
 		try {
 			const payload = await this.jwtService.verifyAsync<JwtPayload>(token, {
-				secret: this.configService.get("JWT_SECRET")
+				secret: this.configService.get(EnvEnum.JWT_SECRET)
 			});
 
-			const userData = await this.getUserInfo(payload.sub);
+			const userData = await this.getUserInfo(payload);
 			if (!userData) {
 				throw new UnauthorizedException("用户不存在或已删除");
 			}
@@ -65,11 +67,27 @@ export class JwtAuthGuard implements CanActivate {
 	}
 
 	/** 获取用户信息 */
-	private getUserInfo(userId: number): Promise<UserData> {
-		return this.prismaService.user.findUnique({
+	private async getUserInfo(jwtPayload: JwtPayload): Promise<UserData | null> {
+		// 查询角色
+		const user = await this.getUser(jwtPayload.sub);
+		if (!user) return null;
+
+		return {
+			...user,
+			roles: jwtPayload.roles,
+			permissions: jwtPayload.permissions
+		};
+	}
+
+	/** 获取user数据 */
+	private async getUser(userId: number): Promise<DbUser | null> {
+		// 查询用户
+		const findUser = await this.prismaService.user.findUnique({
 			where: {
 				id: userId
 			}
 		});
+		if (!findUser) return null;
+		return findUser as DbUser;
 	}
 }

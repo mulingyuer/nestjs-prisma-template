@@ -12,6 +12,7 @@
     "pino",
     "snapshotuser",
     "unionid",
-    "wechat"
+    "wechat",
+    "zxcvbn"
   ]
 }

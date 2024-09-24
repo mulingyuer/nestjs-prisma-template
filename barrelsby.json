@@ -1,6 +1,7 @@
 {
   "directory": [
     "E:\\code\\nestjs-prisma-template\\src\\modules\\auth\\entities",
+    "E:\\code\\nestjs-prisma-template\\src\\common\\class-validator",
     "E:\\code\\nestjs-prisma-template\\src\\common\\decorators",
     "E:\\code\\nestjs-prisma-template\\src\\common\\dto",
     "E:\\code\\nestjs-prisma-template\\src\\common\\entities",
@@ -10,7 +11,8 @@
     "E:\\code\\nestjs-prisma-template\\src\\common\\http-exception",
     "E:\\code\\nestjs-prisma-template\\src\\common\\interceptors",
     "E:\\code\\nestjs-prisma-template\\src\\common\\pipes",
-    "E:\\code\\nestjs-prisma-template\\src\\common\\result-class"
+    "E:\\code\\nestjs-prisma-template\\src\\common\\result-class",
+    "E:\\code\\nestjs-prisma-template\\src\\common\\types"
   ],
   "exclude": [
     "node_modules",
