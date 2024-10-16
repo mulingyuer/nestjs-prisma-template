@@ -1,7 +1,7 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-09-24 15:44:42
- * @LastEditTime: 2024-09-24 15:44:43
+ * @LastEditTime: 2024-10-16 09:06:48
  * @LastEditors: mulingyuer
  * @Description: 角色填充
  * @FilePath: \nestjs-prisma-template\prisma\seed\roles.ts
@@ -41,14 +41,16 @@ export async function seedRoles() {
 
 	const roles: Prisma.RoleCreateInput[] = [
 		{
-			name: RoleNameEnum.USER,
-			desc: "普通用户",
-			permissionIds: getPermissionIds(RoleNameEnum.USER)
-		},
-		{
+			id: 1,
 			name: RoleNameEnum.ADMIN,
 			desc: "管理员",
 			permissionIds: getPermissionIds(RoleNameEnum.ADMIN)
+		},
+		{
+			id: 2,
+			name: RoleNameEnum.USER,
+			desc: "普通用户",
+			permissionIds: getPermissionIds(RoleNameEnum.USER)
 		}
 	];
 
@@ -56,7 +58,7 @@ export async function seedRoles() {
 	await prisma.$transaction(async (prisma) => {
 		for (const role of roles) {
 			await prisma.role.upsert({
-				where: { name: role.name },
+				where: { id: role.id },
 				create: role,
 				update: role
 			});

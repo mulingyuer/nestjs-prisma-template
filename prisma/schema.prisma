@@ -43,7 +43,7 @@ model User {
 
 // 角色
 model Role {
-  id            Int          @id @default(autoincrement())
+  id            Int          @id
   name          RoleNameEnum @unique // 名称
   desc          String?      @db.VarChar(255) // 描述
   permissionIds Json // 权限id列表 [1, 2, 3]
@@ -56,10 +56,12 @@ model Role {
 
 // 角色权限
 model Permission {
-  id        Int            @id @default(autoincrement())
+  id        Int            @id
   name      PermissionEnum @unique // 权限名称
   desc      String?        @db.VarChar(255) // 描述
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
   deletedAt DateTime?
+
+  @@map("permission")
 }

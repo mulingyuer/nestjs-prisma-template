@@ -1,10 +1,10 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-09-24 15:49:26
- * @LastEditTime: 2024-09-24 15:52:46
+ * @LastEditTime: 2024-10-16 09:01:03
  * @LastEditors: mulingyuer
  * @Description: 环境变量枚举
- * @FilePath: \nestjs-prisma-template\src\common\enum\environment.enum.ts
+ * @FilePath: \nestjs-prisma-template\src\common\enums\environment.enum.ts
  * 怎么可能会有bug！！！
  */
 
@@ -36,5 +36,9 @@ export enum EnvEnum {
 	/** Swagger 描述 */
 	SWAGGER_DESCRIPTION = "SWAGGER_DESCRIPTION",
 	/** 文件上传路径 */
-	UPLOAD_DIR = "UPLOAD_DIR"
+	UPLOAD_DIR = "UPLOAD_DIR",
+	/** 管理员账号 */
+	ADMIN_ACCOUNT = "ADMIN_ACCOUNT",
+	/** 管理员密码 */
+	ADMIN_PASSWORD = "ADMIN_PASSWORD"
 }

@@ -15,7 +15,7 @@ CREATE TABLE `user` (
 
 -- CreateTable
 CREATE TABLE `role` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` INTEGER NOT NULL,
     `name` ENUM('ADMIN', 'USER') NOT NULL,
     `desc` VARCHAR(255) NULL,
     `permissionIds` JSON NOT NULL,
@@ -28,14 +28,14 @@ CREATE TABLE `role` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Permission` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+CREATE TABLE `permission` (
+    `id` INTEGER NOT NULL,
     `name` ENUM('CREATE', 'READ', 'UPDATE', 'DELETE') NOT NULL,
     `desc` VARCHAR(255) NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `deletedAt` DATETIME(3) NULL,
 
-    UNIQUE INDEX `Permission_name_key`(`name`),
+    UNIQUE INDEX `permission_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
