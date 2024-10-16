@@ -1,7 +1,7 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-09-24 15:37:27
- * @LastEditTime: 2024-10-16 09:06:40
+ * @LastEditTime: 2024-10-16 11:08:47
  * @LastEditors: mulingyuer
  * @Description: 生成权限表
  * @FilePath: \nestjs-prisma-template\prisma\seed\permissions.ts
@@ -9,9 +9,7 @@
  */
 import { PrismaClient, PermissionEnum, Prisma } from "@prisma/client";
 
-export async function seedPermissions() {
-	const prisma = new PrismaClient();
-
+export async function seedPermissions(prisma: PrismaClient) {
 	// 权限列表 （都是测试数据，请根据自己实际情况修改）
 	const list: Prisma.PermissionCreateInput[] = [
 		{ id: 1, name: PermissionEnum.CREATE, desc: "新增" },

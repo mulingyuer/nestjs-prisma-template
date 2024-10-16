@@ -1,7 +1,7 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-09-24 15:44:42
- * @LastEditTime: 2024-10-16 09:06:48
+ * @LastEditTime: 2024-10-16 11:08:58
  * @LastEditors: mulingyuer
  * @Description: 角色填充
  * @FilePath: \nestjs-prisma-template\prisma\seed\roles.ts
@@ -9,9 +9,7 @@
  */
 import { PrismaClient, Prisma, RoleNameEnum, PermissionEnum } from "@prisma/client";
 
-export async function seedRoles() {
-	const prisma = new PrismaClient();
-
+export async function seedRoles(prisma: PrismaClient) {
 	// 查询权限
 	const permissions = await prisma.permission.findMany();
 	const permissionMap = new Map(permissions.map((item) => [item.name, item.id]));

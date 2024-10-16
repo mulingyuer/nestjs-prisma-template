@@ -1,7 +1,7 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-09-24 15:48:27
- * @LastEditTime: 2024-10-16 09:13:31
+ * @LastEditTime: 2024-10-16 11:09:06
  * @LastEditors: mulingyuer
  * @Description: 用户数据填充
  * @FilePath: \nestjs-prisma-template\prisma\seed\users.ts
@@ -11,9 +11,7 @@ import { EnvEnum } from "@/common/enums";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { hash } from "bcrypt";
 
-export async function seedUsers() {
-	const prisma = new PrismaClient();
-
+export async function seedUsers(prisma: PrismaClient) {
 	// 获取用户角色
 	const role = await prisma.role.findUnique({ where: { id: 1 } });
 	if (!role) throw new Error("管理员角色不存在");
