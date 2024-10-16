@@ -1,3 +1,6 @@
+import { EnvEnum } from "@/common/enums";
+import { IS_PUBLIC_KEY } from "@common/decorators";
+import type { JwtPayload } from "@common/types";
 import {
 	CanActivate,
 	ExecutionContext,
@@ -6,14 +9,11 @@ import {
 	UnauthorizedException
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { JwtService } from "@nestjs/jwt";
-import type { Request } from "express";
-import { PrismaService } from "@prisma.service";
-import type { UserData } from "./types";
-import type { DbUser, JwtPayload } from "@common/types";
 import { Reflector } from "@nestjs/core";
-import { IS_PUBLIC_KEY } from "@common/decorators";
-import { EnvEnum } from "@/common/enums";
+import { JwtService } from "@nestjs/jwt";
+import { PrismaService } from "@prisma.service";
+import type { Request } from "express";
+import { getUserFromJwt } from "./helpers";
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
@@ -44,7 +44,7 @@ export class JwtAuthGuard implements CanActivate {
 				secret: this.configService.get(EnvEnum.JWT_SECRET)
 			});
 
-			const userData = await this.getUserInfo(payload);
+			const userData = await getUserFromJwt(payload, this.prismaService);
 			if (!userData) {
 				throw new UnauthorizedException("用户不存在或已删除");
 			}
@@ -64,30 +64,5 @@ export class JwtAuthGuard implements CanActivate {
 	private extractTokenFromHeader(request: Request): string | undefined {
 		const [type, token] = request.headers.authorization?.split(" ") ?? [];
 		return type === "Bearer" ? token : undefined;
-	}
-
-	/** 获取用户信息 */
-	private async getUserInfo(jwtPayload: JwtPayload): Promise<UserData | null> {
-		// 查询角色
-		const user = await this.getUser(jwtPayload.sub);
-		if (!user) return null;
-
-		return {
-			...user,
-			roles: jwtPayload.roles,
-			permissions: jwtPayload.permissions
-		};
-	}
-
-	/** 获取user数据 */
-	private async getUser(userId: number): Promise<DbUser | null> {
-		// 查询用户
-		const findUser = await this.prismaService.user.findUnique({
-			where: {
-				id: userId
-			}
-		});
-		if (!findUser) return null;
-		return findUser as DbUser;
 	}
 }

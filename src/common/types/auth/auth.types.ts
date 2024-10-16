@@ -1,13 +1,13 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-09-24 16:21:06
- * @LastEditTime: 2024-09-24 16:21:12
+ * @LastEditTime: 2024-10-16 09:18:16
  * @LastEditors: mulingyuer
  * @Description: 鉴权相关类型
  * @FilePath: \nestjs-prisma-template\src\common\types\auth\auth.types.ts
  * 怎么可能会有bug！！！
  */
-import { PermissionEnum, Role, User, RoleNameEnum } from "@prisma/client";
+import { PermissionEnum, Role, User, RoleNameEnum, Permission } from "@prisma/client";
 
 /** 数据库的用户类型 */
 export type DbUser = Omit<User, "roleIds"> & { roleIds: number[] };
@@ -15,6 +15,13 @@ export type DbUser = Omit<User, "roleIds"> & { roleIds: number[] };
 /** 数据库的角色类型 */
 export type DbRole = Omit<Role, "permissionIds"> & { permissionIds: number[] };
 export type DbRoles = DbRole[];
+
+/** 数据库的权限类型 */
+export type DbPermission = Permission;
+export type DbPermissions = DbPermission[];
+
+/** 角色名称 */
+export type Roles = RoleNameEnum[];
 
 /** 角色权限类型 */
 export type Permissions = PermissionEnum[];
@@ -36,8 +43,8 @@ export interface JwtPayload {
 	roles: RoleNameEnum[];
 	/** 权限数组 */
 	permissions: Permissions;
-	/** 生成时间 */
-	iat: 1726215641;
-	/** 过期时间 */
-	exp: 1726820441;
+	/** 生成时间 s */
+	iat: number;
+	/** 过期时间 s */
+	exp: number;
 }
