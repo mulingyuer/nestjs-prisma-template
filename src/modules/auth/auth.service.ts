@@ -120,7 +120,7 @@ export class AuthService {
 	}
 
 	/** 获取token的有效期 ms*/
-	getTokenExpiration(token: string) {
+	private getTokenExpiration(token: string) {
 		const { exp } = this.jwtService.decode<JwtPayload>(token);
 		return exp * 1000;
 	}
