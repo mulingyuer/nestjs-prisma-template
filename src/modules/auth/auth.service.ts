@@ -3,9 +3,9 @@ import { JwtService } from "@nestjs/jwt";
 import { PrismaService } from "@prisma.service";
 import { LoginEntity } from "./entities/login.entity";
 import { LoginDto, RegisterDto } from "./dto";
-import { hash, compare } from "bcrypt";
+import { hash, verify } from "@node-rs/argon2";
 import { ConfigService } from "@nestjs/config";
-import { RoleNameEnum } from "@prisma/client";
+import { RoleNameEnum } from "@prisma-client";
 import type { Permissions, DbRoles, DbUser, GenerateTokenData, JwtPayload } from "@common/types";
 import { EnvEnum } from "@/common/enums";
 
@@ -34,7 +34,9 @@ export class AuthService {
 		if (isAccountExists) throw new BadRequestException("账号已存在");
 
 		// 加密密码
-		const hashedPassword = await hash(password, this.saltOrRounds);
+		const hashedPassword = await hash(password, {
+			timeCost: this.saltOrRounds
+		});
 
 		// 查询用户角色id
 		const userRole = await this.prismaService.role.findUnique({
@@ -64,7 +66,7 @@ export class AuthService {
 		if (!isAccountExists) throw new BadRequestException("账号不存在");
 
 		// 检测密码是否正确
-		const isMatch = await compare(password, user.password);
+		const isMatch = await verify(user.password, password);
 		if (!isMatch) throw new BadRequestException("密码错误");
 
 		// 查询用户角色
@@ -82,7 +84,9 @@ export class AuthService {
 
 	/** 查询账号 */
 	private async findAccount(account: string) {
-		const user = (await this.prismaService.user.findUnique({ where: { account } })) as DbUser;
+		const user = (await this.prismaService.user.findUnique({
+			where: { account }
+		})) as DbUser;
 		return {
 			exists: Boolean(user),
 			user

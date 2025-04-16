@@ -1,0 +1,381 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api": {
+      "get": {
+        "operationId": "AppController_getHello",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/upload/image": {
+      "post": {
+        "operationId": "UploadController_uploadImage",
+        "summary": "",
+        "description": "单图片上传",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImageEntity"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImageEntity"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "upload"
+        ]
+      }
+    },
+    "/api/upload/images": {
+      "post": {
+        "operationId": "UploadController_uploadImages",
+        "summary": "",
+        "description": "图片数组上传",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ImageEntity"
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ImageEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "upload"
+        ]
+      }
+    },
+    "/api/upload/images-fields": {
+      "post": {
+        "operationId": "UploadController_uploadImagesFields",
+        "summary": "",
+        "description": "图片多文件上传",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file1": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  },
+                  "file2": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "file1": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ImageEntity"
+                      }
+                    },
+                    "file2": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ImageEntity"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "upload"
+        ]
+      }
+    },
+    "/api/auth/register": {
+      "post": {
+        "operationId": "AuthController_register",
+        "summary": "",
+        "description": "注册账号",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "summary": "",
+        "description": "登录",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginEntity"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Swagger API",
+    "description": "Swagger API文档",
+    "version": "1.0.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "ImageEntity": {
+        "type": "object",
+        "properties": {
+          "mimetype": {
+            "type": "string",
+            "description": "文件类型"
+          },
+          "size": {
+            "type": "number",
+            "description": "文件大小 byt"
+          },
+          "filename": {
+            "type": "string",
+            "description": "完整文件名"
+          }
+        },
+        "required": [
+          "mimetype",
+          "size",
+          "filename"
+        ]
+      },
+      "RegisterDto": {
+        "type": "object",
+        "properties": {
+          "nickname": {
+            "type": "string",
+            "description": "昵称",
+            "minLength": 2,
+            "maxLength": 20
+          },
+          "account": {
+            "type": "string",
+            "description": "账号",
+            "minLength": 5,
+            "maxLength": 20
+          },
+          "password": {
+            "type": "string",
+            "description": "密码",
+            "minLength": 8,
+            "maxLength": 30
+          },
+          "confirm_password": {
+            "type": "string",
+            "description": "二次验证密码"
+          }
+        },
+        "required": [
+          "nickname",
+          "account",
+          "password",
+          "confirm_password"
+        ]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "account": {
+            "type": "string",
+            "description": "账号",
+            "minLength": 5,
+            "maxLength": 20
+          },
+          "password": {
+            "type": "string",
+            "description": "密码",
+            "minLength": 8,
+            "maxLength": 30
+          }
+        },
+        "required": [
+          "account",
+          "password"
+        ]
+      },
+      "LoginEntity": {
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "description": "token"
+          },
+          "expiration": {
+            "type": "number",
+            "description": "过期时间 ms"
+          }
+        },
+        "required": [
+          "access_token",
+          "expiration"
+        ]
+      }
+    }
+  }
+}

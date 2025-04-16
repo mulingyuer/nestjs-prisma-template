@@ -4,6 +4,14 @@
 	"sourceRoot": "src",
 	"compilerOptions": {
 		"deleteOutDir": true,
+		"watchAssets": true,
+		"assets": [
+			{
+				"include": "../prisma/generated",
+				"outDir": "dist/prisma",
+				"watchAssets": true
+			}
+		],
 		"plugins": [
 			{
 				"name": "@nestjs/swagger",

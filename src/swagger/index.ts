@@ -1,10 +1,10 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-07-03 16:37:54
- * @LastEditTime: 2025-04-15 17:50:41
+ * @LastEditTime: 2025-04-16 15:41:44
  * @LastEditors: mulingyuer
  * @Description: swagger文档
- * @FilePath: \nestjs-prisma-template\src\swagger\index.ts
+ * @FilePath: \nest-demo\src\swagger\index.ts
  * 怎么可能会有bug！！！
  */
 import type { INestApplication } from "@nestjs/common";
@@ -17,10 +17,12 @@ import { writeFileSync } from "fs";
 export interface InitOptions {
 	app: INestApplication;
 	configService: ConfigService;
+	/** 是否保存文档到json文件 */
+	saveJson?: boolean;
 }
 
 export function initSwaggerDocument(options: InitOptions) {
-	const { app, configService } = options;
+	const { app, configService, saveJson = false } = options;
 	const title = configService.get(EnvEnum.SWAGGER_TITLE);
 	const description = configService.get(EnvEnum.SWAGGER_DESCRIPTION);
 
@@ -32,10 +34,12 @@ export function initSwaggerDocument(options: InitOptions) {
 		.build();
 	const document = SwaggerModule.createDocument(app, swaggerOptions);
 
-	// 保存openapi文档到json文件
-	const jsonDocument = JSON.stringify(document, null, 2);
-	const jsonDocumentPath = `${getRootPath()}/openapi.json`;
-	writeFileSync(jsonDocumentPath, jsonDocument);
+	// 保存openapi文档到json文件，用于遵守openapi规范
+	if (saveJson) {
+		const jsonDocument = JSON.stringify(document, null, 2);
+		const jsonDocumentPath = `${getRootPath()}/openapi.json`;
+		writeFileSync(jsonDocumentPath, jsonDocument);
+	}
 
 	SwaggerModule.setup("docs", app, document, {
 		jsonDocumentUrl: "/swagger/json",

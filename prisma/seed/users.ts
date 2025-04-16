@@ -1,15 +1,15 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-09-24 15:48:27
- * @LastEditTime: 2024-10-16 11:09:06
+ * @LastEditTime: 2025-04-16 16:42:10
  * @LastEditors: mulingyuer
  * @Description: 用户数据填充
- * @FilePath: \nestjs-prisma-template\prisma\seed\users.ts
+ * @FilePath: \nest-demo\prisma\seed\users.ts
  * 怎么可能会有bug！！！
  */
 import { EnvEnum } from "@/common/enums";
-import { Prisma, PrismaClient } from "@prisma/client";
-import { hash } from "bcrypt";
+import { Prisma, PrismaClient } from "@prisma-client";
+import { hash } from "@node-rs/argon2";
 
 export async function seedUsers(prisma: PrismaClient) {
 	// 获取用户角色
@@ -23,7 +23,7 @@ export async function seedUsers(prisma: PrismaClient) {
 	const data: Prisma.UserCreateInput = {
 		nickname: "管理员",
 		account,
-		password: await hash(password, Number(process.env[EnvEnum.HASH_SALT_OR_ROUNDS])),
+		password: await hash(password, { timeCost: Number(process.env[EnvEnum.HASH_SALT_OR_ROUNDS]) }),
 		roleIds: [role.id]
 	};
 	await prisma.user.upsert({

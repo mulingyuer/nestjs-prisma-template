@@ -1,10 +1,10 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-09-24 16:09:30
- * @LastEditTime: 2024-09-24 16:12:29
+ * @LastEditTime: 2025-04-16 15:37:55
  * @LastEditors: mulingyuer
  * @Description: 检测密码强度
- * @FilePath: \nestjs-prisma-template\src\common\class-validator\check-password-strength\check-password-strength.ts
+ * @FilePath: \nest-demo\src\common\class-validator\check-password-strength\check-password-strength.ts
  * 怎么可能会有bug！！！
  */
 
@@ -28,6 +28,7 @@ export function CheckPasswordStrength(lowestScore: number, validationOptions?: V
 			options: validationOptions,
 			validator: {
 				validate(value: any, args: ValidationArguments) {
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 					if (typeof value !== "string") value = value.toString();
 					const [lowestScore] = args.constraints;
 					return checkPasswordStrength(value, lowestScore);

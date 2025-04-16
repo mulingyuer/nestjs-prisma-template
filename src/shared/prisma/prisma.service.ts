@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException, OnModuleInit, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { PrismaClient, Prisma } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma-client";
 import { EnvEnum } from "@common/enums";
 
 @Injectable()
@@ -39,6 +39,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
 			this.$on(level, (e) => {
 				const type = ["query", "info"].includes(level) ? "log" : level;
 				if (typeof this.logger[type] === "function") {
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 					this.logger[type](e);
 				}
 			});

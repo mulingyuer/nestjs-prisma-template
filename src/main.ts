@@ -41,7 +41,7 @@ async function bootstrap() {
 	);
 
 	// 跨域
-	const corsEnabled = configService.get(EnvEnum.CORS_ENABLED);
+	const corsEnabled = configService.get<string>(EnvEnum.CORS_ENABLED);
 	if (corsEnabled === "true") {
 		app.enableCors({
 			origin: "*"
@@ -49,7 +49,10 @@ async function bootstrap() {
 	}
 
 	// 端口
-	const port = configService.get<string>(EnvEnum.PORT);
+	const port = configService.get<string>(EnvEnum.PORT)!;
 	await app.listen(port);
 }
+
+// 启动
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 bootstrap();

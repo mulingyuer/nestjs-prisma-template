@@ -1,13 +1,13 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-09-24 15:37:27
- * @LastEditTime: 2024-10-16 11:08:47
+ * @LastEditTime: 2025-04-16 16:22:41
  * @LastEditors: mulingyuer
  * @Description: 生成权限表
- * @FilePath: \nestjs-prisma-template\prisma\seed\permissions.ts
+ * @FilePath: \nest-demo\prisma\seed\permissions.ts
  * 怎么可能会有bug！！！
  */
-import { PrismaClient, PermissionEnum, Prisma } from "@prisma/client";
+import { PrismaClient, PermissionEnum, Prisma } from "@prisma-client";
 
 export async function seedPermissions(prisma: PrismaClient) {
 	// 权限列表 （都是测试数据，请根据自己实际情况修改）

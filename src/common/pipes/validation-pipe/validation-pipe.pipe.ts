@@ -16,7 +16,7 @@ export class ValidationPipePipe extends ValidationPipe {
 	}
 
 	/** 获取第一个错误对象的message */
-	private getFirstErrorMessage(errors: ValidationError[]) {
+	private getFirstErrorMessage(errors: ValidationError[]): string {
 		const firstError = errors[0];
 		if (firstError.constraints) {
 			// 单属性错误
@@ -25,7 +25,7 @@ export class ValidationPipePipe extends ValidationPipe {
 		} else {
 			// 嵌套属性错误
 			const errorChildren = firstError.children;
-			return this.getFirstErrorMessage(errorChildren);
+			return this.getFirstErrorMessage(errorChildren!);
 		}
 	}
 }

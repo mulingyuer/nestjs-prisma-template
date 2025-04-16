@@ -1,10 +1,10 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-07-05 09:53:44
- * @LastEditTime: 2024-09-24 16:05:51
+ * @LastEditTime: 2025-04-16 15:26:50
  * @LastEditors: mulingyuer
  * @Description: 图片校验拦截器
- * @FilePath: \nestjs-prisma-template\src\common\interceptors\image\image.interceptor.ts
+ * @FilePath: \nest-demo\src\common\interceptors\image\image.interceptor.ts
  * 怎么可能会有bug！！！
  */
 import {
@@ -90,7 +90,7 @@ export function ImagesFieldsInterceptor(options: ImagesInterceptorOptions) {
 					throw new BadRequestException("请上传图片文件");
 				}
 
-				const lackKeys = fileKeys.filter((key) => !Object.hasOwn(request.files, key));
+				const lackKeys = fileKeys.filter((key) => !Object.hasOwn(request.files!, key));
 				if (lackKeys.length > 0) {
 					throw new BadRequestException(`缺少${lackKeys.join("、")}图片文件`);
 				}

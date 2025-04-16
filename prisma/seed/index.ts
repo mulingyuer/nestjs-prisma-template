@@ -1,13 +1,13 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-07-01 16:56:56
- * @LastEditTime: 2024-10-16 11:08:25
+ * @LastEditTime: 2025-04-16 16:42:09
  * @LastEditors: mulingyuer
  * @Description: 数据库填充
- * @FilePath: \nestjs-prisma-template\prisma\seed\index.ts
+ * @FilePath: \nest-demo\prisma\seed\index.ts
  * 怎么可能会有bug！！！
  */
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma-client";
 import { seedPermissions } from "./permissions";
 import { seedRoles } from "./roles";
 import { seedUsers } from "./users";

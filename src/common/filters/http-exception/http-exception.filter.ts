@@ -1,16 +1,16 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-07-02 11:47:12
- * @LastEditTime: 2024-09-24 16:18:58
+ * @LastEditTime: 2025-04-16 15:24:44
  * @LastEditors: mulingyuer
  * @Description: 全局异常过滤器
- * @FilePath: \nestjs-prisma-template\src\common\filters\http-exception\http-exception.filter.ts
+ * @FilePath: \nest-demo\src\common\filters\http-exception\http-exception.filter.ts
  * 怎么可能会有bug！！！
  */
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from "@nestjs/common";
 import type { Request, Response } from "express";
 import { Result } from "@common/result-class/result";
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@prisma-client";
 import { CodeHttpException } from "@common/http-exception";
 import { EnvEnum } from "@/common/enums";
 
@@ -50,7 +50,7 @@ export class HttpExceptionFilter<T> implements ExceptionFilter {
 				message = "数据操作发生错误";
 			}
 		} else {
-			message = exception?.toString();
+			message = exception?.toString() ?? "Internal Server Error";
 		}
 
 		// 返回

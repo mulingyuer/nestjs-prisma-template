@@ -1,10 +1,10 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-07-02 11:18:42
- * @LastEditTime: 2024-07-02 16:57:03
+ * @LastEditTime: 2025-04-16 15:38:47
  * @LastEditors: mulingyuer
  * @Description: 统一响应数据格式
- * @FilePath: \ease-change-backend\src\common\interceptors\response\response.interceptor.ts
+ * @FilePath: \nest-demo\src\common\interceptors\response\response.interceptor.ts
  * 怎么可能会有bug！！！
  */
 import {
@@ -24,6 +24,7 @@ export class ResponseInterceptor implements NestInterceptor {
 		const request = context.switchToHttp().getRequest<Request>();
 		const response = context.switchToHttp().getResponse<Response>();
 		// 将post的状态码 201 => 200
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
 		const isPost = request.method === "POST" && response.statusCode === HttpStatus.CREATED;
 		if (isPost) response.status(HttpStatus.OK);
 

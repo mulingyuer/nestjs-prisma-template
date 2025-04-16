@@ -117,7 +117,11 @@ export class UploadController {
 		}
 	})
 	uploadImagesFields(
-		@UploadedFiles() files: { file1: Array<Express.Multer.File>; file2: Array<Express.Multer.File> }
+		@UploadedFiles()
+		files: {
+			file1: Array<Express.Multer.File>;
+			file2: Array<Express.Multer.File>;
+		}
 	) {
 		const keys = Object.keys(files) as Array<keyof typeof files>;
 		const result: Record<"file1" | "file2", ImageEntity[]> = {

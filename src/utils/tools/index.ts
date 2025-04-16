@@ -1,10 +1,10 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-07-02 14:48:53
- * @LastEditTime: 2024-09-24 16:28:48
+ * @LastEditTime: 2025-04-16 15:37:25
  * @LastEditors: mulingyuer
  * @Description: 工具
- * @FilePath: \nestjs-prisma-template\src\utils\tools\index.ts
+ * @FilePath: \nest-demo\src\utils\tools\index.ts
  * 怎么可能会有bug！！！
  */
 import { dirname, join } from "path";
@@ -53,7 +53,7 @@ export const getLogTime = (() => {
 
 /** 获取项目根路径 */
 export function getRootPath() {
-	const mainPath = dirname(require.main.filename);
+	const mainPath = dirname(require.main!.filename);
 	return mainPath.split("dist")[0];
 }
 
@@ -94,7 +94,7 @@ export function checkEnv(
 	configService: ConfigService | Record<string, string>,
 	env: string[]
 ): boolean {
-	let missingEnvVars = [];
+	let missingEnvVars: Array<string> = [];
 	if (configService instanceof ConfigService) {
 		missingEnvVars = env.filter((key) => typeof configService.get(key) === "undefined");
 	} else {

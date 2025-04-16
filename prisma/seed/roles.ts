@@ -7,7 +7,7 @@
  * @FilePath: \nestjs-prisma-template\prisma\seed\roles.ts
  * 怎么可能会有bug！！！
  */
-import { PrismaClient, Prisma, RoleNameEnum, PermissionEnum } from "@prisma/client";
+import { PrismaClient, Prisma, RoleNameEnum, PermissionEnum } from "@prisma-client";
 
 export async function seedRoles(prisma: PrismaClient) {
 	// 查询权限
