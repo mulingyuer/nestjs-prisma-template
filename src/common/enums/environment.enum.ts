@@ -1,7 +1,7 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-09-24 15:49:26
- * @LastEditTime: 2024-10-16 09:01:03
+ * @LastEditTime: 2025-06-24 15:31:28
  * @LastEditors: mulingyuer
  * @Description: 环境变量枚举
  * @FilePath: \nestjs-prisma-template\src\common\enums\environment.enum.ts
@@ -40,5 +40,11 @@ export enum EnvEnum {
 	/** 管理员账号 */
 	ADMIN_ACCOUNT = "ADMIN_ACCOUNT",
 	/** 管理员密码 */
-	ADMIN_PASSWORD = "ADMIN_PASSWORD"
+	ADMIN_PASSWORD = "ADMIN_PASSWORD",
+	/** Redis 地址 */
+	REDIS_HOST = "REDIS_HOST",
+	/** Redis 端口 */
+	REDIS_PORT = "REDIS_PORT",
+	/** Redis 密码 */
+	REDIS_PASSWORD = "REDIS_PASSWORD"
 }

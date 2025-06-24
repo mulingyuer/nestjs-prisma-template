@@ -1,7 +1,7 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-07-02 10:38:56
- * @LastEditTime: 2024-09-24 16:51:53
+ * @LastEditTime: 2025-06-24 16:12:58
  * @LastEditors: mulingyuer
  * @Description: 共享模块
  * @FilePath: \nestjs-prisma-template\src\shared\shared.module.ts
@@ -26,6 +26,7 @@ import { PrismaModule } from "./prisma/prisma.module";
 import { RequestService } from "./services/request/request.service";
 import { UploadModule } from "./upload/upload.module";
 import { EnvEnum } from "@common/enums";
+import { RedisService } from "./services/redis/redis.service";
 
 const NODE_ENV = process.env[EnvEnum.NODE_ENV];
 const isDev = NODE_ENV === "development";
@@ -137,9 +138,12 @@ const isDev = NODE_ENV === "development";
 			provide: APP_GUARD,
 			useClass: PermissionsGuard
 		},
-		RequestService
+		// 请求服务
+		RequestService,
+		// Redis服务
+		RedisService
 	],
-	exports: [RequestService],
+	exports: [RequestService, RedisService],
 	controllers: []
 })
 export class SharedModule {}
