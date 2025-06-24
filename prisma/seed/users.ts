@@ -8,7 +8,7 @@
  * 怎么可能会有bug！！！
  */
 import { EnvEnum } from "@/common/enums";
-import { Prisma, PrismaClient } from "@prisma-client";
+import { Prisma, PrismaClient } from "@prisma/generated/client";
 import { hash } from "@node-rs/argon2";
 
 export async function seedUsers(prisma: PrismaClient) {

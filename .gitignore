@@ -55,9 +55,12 @@ pids
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
-/uploads 
+/uploads
 /downloads
 .env.development
 .env.production
 .node-version
 
+
+# 忽略prisma客户端生成的目录
+/prisma/generated

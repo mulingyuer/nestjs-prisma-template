@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException, OnModuleInit, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { PrismaClient, Prisma } from "@prisma-client";
+import { PrismaClient, Prisma } from "@prisma/generated/client";
 import { EnvEnum } from "@common/enums";
 
 @Injectable()

@@ -7,7 +7,7 @@
  * @FilePath: \nest-demo\prisma\seed\permissions.ts
  * 怎么可能会有bug！！！
  */
-import { PrismaClient, PermissionEnum, Prisma } from "@prisma-client";
+import { PrismaClient, PermissionEnum, Prisma } from "@prisma/generated/client";
 
 export async function seedPermissions(prisma: PrismaClient) {
 	// 权限列表 （都是测试数据，请根据自己实际情况修改）

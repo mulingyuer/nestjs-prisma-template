@@ -10,7 +10,7 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from "@nestjs/common";
 import type { Request, Response } from "express";
 import { Result } from "@common/result-class/result";
-import { Prisma } from "@prisma-client";
+import { Prisma } from "@prisma/generated/client";
 import { CodeHttpException } from "@common/http-exception";
 import { EnvEnum } from "@/common/enums";
 

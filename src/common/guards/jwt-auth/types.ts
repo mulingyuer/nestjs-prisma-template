@@ -8,7 +8,7 @@
  * 怎么可能会有bug！！！
  */
 import { DbUser, Permissions } from "@/common/types";
-import { RoleNameEnum } from "@prisma-client";
+import { RoleNameEnum } from "@prisma/generated/client";
 
 /** 上下文中的用户数据类型 */
 export type UserData = DbUser & {

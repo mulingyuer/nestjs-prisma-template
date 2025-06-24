@@ -7,7 +7,7 @@
  * @FilePath: \nest-demo\prisma\seed\index.ts
  * 怎么可能会有bug！！！
  */
-import { PrismaClient } from "@prisma-client";
+import { PrismaClient } from "@prisma/generated/client";
 import { seedPermissions } from "./permissions";
 import { seedRoles } from "./roles";
 import { seedUsers } from "./users";

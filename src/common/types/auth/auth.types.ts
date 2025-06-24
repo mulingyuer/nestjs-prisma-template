@@ -7,7 +7,7 @@
  * @FilePath: \nest-demo\src\common\types\auth\auth.types.ts
  * 怎么可能会有bug！！！
  */
-import { PermissionEnum, Role, User, RoleNameEnum, Permission } from "@prisma-client";
+import { PermissionEnum, Role, User, RoleNameEnum, Permission } from "@prisma/generated/client";
 
 /** 数据库的用户类型 */
 export type DbUser = Omit<User, "roleIds"> & { roleIds: number[] };

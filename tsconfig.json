@@ -21,7 +21,8 @@
 			"@/*": ["src/*"],
 			"@common/*": ["src/common/*"],
 			"@shared/*": ["src/shared/*"],
-			"@prisma-client": ["./prisma/generated/client"],
+			"@prisma/generated/client": ["./prisma/generated/client"],
+			"@prisma/generated/client/*": ["./prisma/generated/client/*"],
 			"@prisma.service": ["src/shared/prisma/prisma.service"],
 			"@utils/*": ["src/utils/*"]
 		}

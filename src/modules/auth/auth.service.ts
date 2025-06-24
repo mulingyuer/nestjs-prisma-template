@@ -5,10 +5,9 @@ import { LoginEntity } from "./entities/login.entity";
 import { LoginDto, RegisterDto } from "./dto";
 import { hash, verify } from "@node-rs/argon2";
 import { ConfigService } from "@nestjs/config";
-import { RoleNameEnum } from "@prisma-client";
+import { RoleNameEnum } from "@prisma/generated/client";
 import type { Permissions, DbRoles, DbUser, GenerateTokenData, JwtPayload } from "@common/types";
 import { EnvEnum } from "@/common/enums";
-import { RedisService } from "@shared/services/redis/redis.service";
 
 @Injectable()
 export class AuthService {
@@ -18,20 +17,12 @@ export class AuthService {
 	constructor(
 		private readonly prismaService: PrismaService,
 		private readonly jwtService: JwtService,
-		private readonly configService: ConfigService,
-		private readonly redisService: RedisService
+		private readonly configService: ConfigService
 	) {
 		const envSaltOrRounds = this.configService.get<string>(EnvEnum.HASH_SALT_OR_ROUNDS);
 		if (typeof envSaltOrRounds === "string" && envSaltOrRounds.trim() !== "") {
 			this.saltOrRounds = Number(envSaltOrRounds);
 		}
-
-		this.test();
-	}
-
-	async test() {
-		const a = await this.redisService.get("test");
-		console.log("🚀 ~ AuthService ~ a:", a);
 	}
 
 	/** 注册 */
