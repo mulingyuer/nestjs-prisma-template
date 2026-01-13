@@ -1,6 +1,7 @@
 import { Injectable, InternalServerErrorException, OnModuleInit, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { PrismaClient, Prisma } from "@prisma/generated/client";
+import { PrismaMariaDb } from "@prisma/adapter-mariadb";
+import { PrismaClient, Prisma } from "@generated/prisma/client";
 import { EnvEnum } from "@common/enums";
 
 @Injectable()
@@ -8,6 +9,9 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
 	private readonly logger = new Logger(PrismaService.name);
 
 	constructor(private readonly config: ConfigService) {
+		// 适配器
+		const adapter = new PrismaMariaDb(config.get<string>(EnvEnum.DATABASE_URL)!);
+
 		// 日志
 		const logList: Array<Prisma.LogDefinition> = [
 			{
@@ -31,7 +35,11 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
 				}
 			);
 		}
-		super({ log: logList });
+
+		super({
+			adapter,
+			log: logList
+		});
 
 		// 监听日志
 		logList.forEach(({ level }) => {

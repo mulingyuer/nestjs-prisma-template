@@ -1,13 +1,13 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-09-24 15:44:42
- * @LastEditTime: 2024-10-16 11:08:58
+ * @LastEditTime: 2026-01-13 16:39:20
  * @LastEditors: mulingyuer
  * @Description: 角色填充
  * @FilePath: \nestjs-prisma-template\prisma\seed\roles.ts
  * 怎么可能会有bug！！！
  */
-import { PrismaClient, Prisma, RoleNameEnum, PermissionEnum } from "@prisma/generated/client";
+import { PrismaClient, Prisma, RoleNameEnum, PermissionEnum } from "@generated/prisma/client";
 
 export async function seedRoles(prisma: PrismaClient) {
 	// 查询权限

@@ -1,13 +1,13 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-09-24 16:21:06
- * @LastEditTime: 2025-04-16 16:42:18
+ * @LastEditTime: 2026-01-13 16:53:36
  * @LastEditors: mulingyuer
  * @Description: 鉴权相关类型
- * @FilePath: \nest-demo\src\common\types\auth\auth.types.ts
+ * @FilePath: \nestjs-prisma-template\src\common\types\auth\auth.types.ts
  * 怎么可能会有bug！！！
  */
-import { PermissionEnum, Role, User, RoleNameEnum, Permission } from "@prisma/generated/client";
+import { PermissionEnum, Role, User, RoleNameEnum, Permission } from "@generated/prisma/client";
 
 /** 数据库的用户类型 */
 export type DbUser = Omit<User, "roleIds"> & { roleIds: number[] };

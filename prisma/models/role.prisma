@@ -1,0 +1,12 @@
+// 角色
+model Role {
+  id            Int          @id
+  name          RoleNameEnum @unique // 名称
+  desc          String?      @db.VarChar(255) // 描述
+  permissionIds Json // 权限id列表 [1, 2, 3]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  deletedAt     DateTime?
+
+  @@map("role")
+}

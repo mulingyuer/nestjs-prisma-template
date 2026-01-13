@@ -1,14 +1,14 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-09-24 15:48:27
- * @LastEditTime: 2025-04-16 16:42:10
+ * @LastEditTime: 2026-01-13 16:39:25
  * @LastEditors: mulingyuer
  * @Description: 用户数据填充
- * @FilePath: \nest-demo\prisma\seed\users.ts
+ * @FilePath: \nestjs-prisma-template\prisma\seed\users.ts
  * 怎么可能会有bug！！！
  */
 import { EnvEnum } from "@/common/enums";
-import { Prisma, PrismaClient } from "@prisma/generated/client";
+import { Prisma, PrismaClient } from "@generated/prisma/client";
 import { hash } from "@node-rs/argon2";
 
 export async function seedUsers(prisma: PrismaClient) {

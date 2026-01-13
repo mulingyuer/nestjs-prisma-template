@@ -1,19 +1,21 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-07-01 16:56:56
- * @LastEditTime: 2025-04-16 16:42:09
+ * @LastEditTime: 2026-01-13 16:39:02
  * @LastEditors: mulingyuer
  * @Description: 数据库填充
- * @FilePath: \nest-demo\prisma\seed\index.ts
+ * @FilePath: \nestjs-prisma-template\prisma\seed\index.ts
  * 怎么可能会有bug！！！
  */
-import { PrismaClient } from "@prisma/generated/client";
+import { PrismaClient } from "@generated/prisma/client";
+import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 import { seedPermissions } from "./permissions";
 import { seedRoles } from "./roles";
 import { seedUsers } from "./users";
 
 async function main() {
-	const prisma = new PrismaClient();
+	const adapter = new PrismaMariaDb(process.env.DATABASE_URL!);
+	const prisma = new PrismaClient({ adapter });
 	// 填充权限
 	await seedPermissions(prisma);
 	// 填充角色

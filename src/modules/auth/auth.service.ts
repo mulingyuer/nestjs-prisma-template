@@ -5,7 +5,7 @@ import { LoginEntity } from "./entities/login.entity";
 import { LoginDto, RegisterDto } from "./dto";
 import { hash, verify } from "@node-rs/argon2";
 import { ConfigService } from "@nestjs/config";
-import { RoleNameEnum } from "@prisma/generated/client";
+import { RoleNameEnum } from "@generated/prisma/client";
 import type { Permissions, DbRoles, DbUser, GenerateTokenData, JwtPayload } from "@common/types";
 import { EnvEnum } from "@/common/enums";
 

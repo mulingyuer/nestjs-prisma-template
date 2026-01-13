@@ -1,7 +1,7 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-07-02 10:38:56
- * @LastEditTime: 2025-06-24 16:12:58
+ * @LastEditTime: 2026-01-13 16:49:40
  * @LastEditors: mulingyuer
  * @Description: 共享模块
  * @FilePath: \nestjs-prisma-template\src\shared\shared.module.ts
@@ -26,7 +26,12 @@ import { PrismaModule } from "./prisma/prisma.module";
 import { RequestService } from "./services/request/request.service";
 import { UploadModule } from "./upload/upload.module";
 import { EnvEnum } from "@common/enums";
-import { RedisService } from "./services/redis/redis.service";
+import { TokenService } from "./services/token/token.service";
+import { CacheModule } from "@nestjs/cache-manager";
+import { createKeyv, Keyv } from "@keyv/redis";
+import { CacheableMemory } from "cacheable";
+import { RedisModule } from "./redis/redis.module";
+import { ScheduleModule } from "@nestjs/schedule";
 
 const NODE_ENV = process.env[EnvEnum.NODE_ENV];
 const isDev = NODE_ENV === "development";
@@ -45,7 +50,7 @@ const isDev = NODE_ENV === "development";
 				// 校验环境变量
 				checkEnv(configService, [EnvEnum.JWT_SECRET, EnvEnum.JWT_EXPIRES_IN]);
 				const secret = configService.get<string>(EnvEnum.JWT_SECRET);
-				const expiresIn = configService.get<string>(EnvEnum.JWT_EXPIRES_IN);
+				const expiresIn = configService.get<any>(EnvEnum.JWT_EXPIRES_IN);
 
 				return {
 					secret,
@@ -90,7 +95,33 @@ const isDev = NODE_ENV === "development";
 						}
 			}
 		}),
-		UploadModule
+		UploadModule,
+		CacheModule.registerAsync({
+			isGlobal: true,
+			useFactory(configService: ConfigService) {
+				// 校验环境变量
+				checkEnv(configService, [EnvEnum.REDIS_HOST, EnvEnum.REDIS_PORT, EnvEnum.REDIS_PASSWORD]);
+				const redisHost = configService.get<string>(EnvEnum.REDIS_HOST)!;
+				const redisPort = configService.get<string>(EnvEnum.REDIS_PORT)!;
+				const redisPassword = configService.get<string>(EnvEnum.REDIS_PASSWORD)!;
+
+				return {
+					stores: [
+						createKeyv({
+							url: `redis://${redisHost}:${redisPort}`,
+							password: redisPassword
+						}),
+						new Keyv({
+							store: new CacheableMemory()
+						})
+					]
+				};
+			},
+			inject: [ConfigService]
+		}),
+		RedisModule,
+		// 定时任务
+		ScheduleModule.forRoot()
 	],
 	providers: [
 		// 校验
@@ -140,10 +171,10 @@ const isDev = NODE_ENV === "development";
 		},
 		// 请求服务
 		RequestService,
-		// Redis服务
-		RedisService
+		// token服务
+		TokenService
 	],
-	exports: [RequestService, RedisService],
+	exports: [RequestService, TokenService],
 	controllers: []
 })
 export class SharedModule {}

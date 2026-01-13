@@ -1,0 +1,11 @@
+// 角色权限
+model Permission {
+  id        Int            @id
+  name      PermissionEnum @unique // 权限名称
+  desc      String?        @db.VarChar(255) // 描述
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  deletedAt DateTime?
+
+  @@map("permission")
+}

@@ -1,10 +1,10 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-07-02 14:48:53
- * @LastEditTime: 2025-04-16 15:37:25
+ * @LastEditTime: 2026-01-13 16:41:04
  * @LastEditors: mulingyuer
  * @Description: 工具
- * @FilePath: \nest-demo\src\utils\tools\index.ts
+ * @FilePath: \nestjs-prisma-template\src\utils\tools\index.ts
  * 怎么可能会有bug！！！
  */
 import { dirname, join } from "path";
@@ -143,4 +143,20 @@ export function mergeOptions<T = unknown>(defaultObj: any, userObj: any): T {
 /** 生成uuid */
 export function generateUUID() {
 	return uuidV4();
+}
+
+/**
+ * 检查一个对象的所有自有属性是否都是undefined
+ * 此函数只考虑对象的直接属性，不考虑从原型链继承的属性
+ *
+ * @param obj - 要检查的对象
+ * @returns 如果所有属性都是undefined则返回true，否则返回false
+ */
+export function isObjectAllUndefined<T extends object>(obj: T): boolean {
+	const keys = Object.keys(obj);
+
+	// 没有keys，说明是空对象，所有属性都是undefined
+	if (keys.length === 0) return true;
+
+	return keys.every((key) => obj[key as keyof T] === undefined);
 }

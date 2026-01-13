@@ -1,28 +1,19 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-07-02 11:47:12
- * @LastEditTime: 2025-04-16 15:24:44
+ * @LastEditTime: 2026-01-13 16:52:42
  * @LastEditors: mulingyuer
  * @Description: 全局异常过滤器
- * @FilePath: \nest-demo\src\common\filters\http-exception\http-exception.filter.ts
+ * @FilePath: \nestjs-prisma-template\src\common\filters\http-exception\http-exception.filter.ts
  * 怎么可能会有bug！！！
  */
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from "@nestjs/common";
 import type { Request, Response } from "express";
 import { Result } from "@common/result-class/result";
-import { Prisma } from "@prisma/generated/client";
 import { CodeHttpException } from "@common/http-exception";
 import { EnvEnum } from "@/common/enums";
 
 const isDev = process.env[EnvEnum.NODE_ENV] === "development";
-/** prisma的错误类 */
-const PrismaErrorList = [
-	Prisma.PrismaClientInitializationError,
-	Prisma.PrismaClientKnownRequestError,
-	Prisma.PrismaClientUnknownRequestError,
-	Prisma.PrismaClientRustPanicError,
-	Prisma.PrismaClientValidationError
-];
 
 @Catch()
 export class HttpExceptionFilter<T> implements ExceptionFilter {
@@ -45,7 +36,7 @@ export class HttpExceptionFilter<T> implements ExceptionFilter {
 			}
 		} else if (this.isPrismaError(exception)) {
 			if (isDev) {
-				message = exception.toString();
+				message = (exception as any).toString();
 			} else {
 				message = "数据操作发生错误";
 			}
@@ -58,7 +49,18 @@ export class HttpExceptionFilter<T> implements ExceptionFilter {
 	}
 
 	/** 是否是prisma报错 */
-	private isPrismaError(exception: any): exception is (typeof PrismaErrorList)[number] {
-		return PrismaErrorList.some((error) => exception instanceof error);
+	private isPrismaError(exception: any): { isPrisma: boolean; type?: string } {
+		if (!("clientVersion" in exception)) {
+			return { isPrisma: false };
+		}
+
+		if (exception.code) return { isPrisma: true, type: "KnownRequestError" };
+		if (exception.retryable !== undefined) return { isPrisma: true, type: "InitializationError" };
+		if (exception.name === "PrismaClientValidationError")
+			return { isPrisma: true, type: "ValidationError" };
+		if (exception.batchRequestIdx !== undefined)
+			return { isPrisma: true, type: "UnknownRequestError" };
+
+		return { isPrisma: true, type: "Other" };
 	}
 }

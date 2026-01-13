@@ -7,8 +7,8 @@
 		"watchAssets": true,
 		"assets": [
 			{
-				"include": "../prisma/generated",
-				"outDir": "dist/prisma",
+				"include": "../generated/prisma",
+				"outDir": "dist/generated/prisma",
 				"watchAssets": true
 			}
 		],

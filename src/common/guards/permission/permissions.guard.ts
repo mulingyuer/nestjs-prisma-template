@@ -2,7 +2,7 @@ import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from
 import { Observable } from "rxjs";
 import { PERMISSIONS_KEY } from "@common/decorators";
 import { Reflector } from "@nestjs/core";
-import { PermissionEnum } from "@prisma/generated/client";
+import { PermissionEnum } from "@generated/prisma/client";
 import type { UserData } from "@common/guards";
 
 @Injectable()

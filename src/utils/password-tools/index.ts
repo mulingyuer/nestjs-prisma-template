@@ -1,13 +1,13 @@
 /*
  * @Author: mulingyuer
  * @Date: 2024-09-11 15:32:42
- * @LastEditTime: 2024-09-24 16:14:14
+ * @LastEditTime: 2026-01-13 16:53:53
  * @LastEditors: mulingyuer
  * @Description: 密码处理工具
  * @FilePath: \nestjs-prisma-template\src\utils\password-tools\index.ts
  * 怎么可能会有bug！！！
  */
-import * as zxcvbn from "zxcvbn";
+import zxcvbn from "zxcvbn";
 
 /**
  * @description: 校验密码强度
