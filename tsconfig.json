@@ -13,7 +13,6 @@
 		"target": "ES2023",
 		"sourceMap": true,
 		"outDir": "./dist",
-		"baseUrl": "./",
 		"incremental": true,
 		"skipLibCheck": true,
 		"strictNullChecks": true,
@@ -21,24 +20,25 @@
 		"noImplicitAny": false,
 		"strictBindCallApply": false,
 		"noFallthroughCasesInSwitch": false,
+		"strictPropertyInitialization": false,
 		"paths": {
 			"@/*": [
-				"src/*"
+				"./src/*"
 			],
 			"@common/*": [
-				"src/common/*"
+				"./src/common/*"
 			],
 			"@shared/*": [
-				"src/shared/*"
+				"./src/shared/*"
 			],
 			"@generated/prisma/client": [
-				"generated/prisma/client"
+				"./generated/prisma/client"
 			],
 			"@prisma.service": [
-				"src/shared/prisma/prisma.service"
+				"./src/shared/prisma/prisma.service"
 			],
 			"@utils/*": [
-				"src/utils/*"
+				"./src/utils/*"
 			]
 		}
 	}
