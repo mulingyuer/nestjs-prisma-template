@@ -43,7 +43,7 @@
     "@node-rs/argon2": "^2.0.2",
     "@prisma/adapter-mariadb": "^7.2.0",
     "@prisma/client": "^7.2.0",
-    "axios": "^1.15.0",
+    "axios": "^1.16.0",
     "axios-retry": "^4.5.0",
     "barrelsby": "^2.8.1",
     "cache-manager": "^7.2.8",
